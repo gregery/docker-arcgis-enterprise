@@ -85,4 +85,4 @@ else
     echo "Could not reach Web Adaptor at ${WA_NAME}."
 fi
 
-tail -f /var/log/tomcat8/catalina.out
+tail -f /var/log/tomcat9/catalina.out

@@ -22,6 +22,7 @@ services:
       - server_logs:/home/arcgis/server/usr/logs"
     networks:
       arcgis.net:
+    restart: on-failure
 
 
   portal:
@@ -35,6 +36,7 @@ services:
       - ./arcgis/portal:/home/arcgis/portal/usr/arcgisportal
     networks:
       arcgis.net:
+    restart: on-failure
 
     
   web-adaptor:
@@ -50,16 +52,22 @@ services:
       - "datastore"
     networks:
       arcgis.net:
+    restart: on-failure
 
 
   datastore:
     container_name: datastore
     build: datastore
     image: wildsong/datastore
-    env_file: .env
+    #    environment:
+    #      AGS_USER: arcgis
+    #      AGS_PASSWORD: samplepassword
+    #      AGE_SERVER: server.wildsong.biz
+    #      AGE_PORTAL: portal.wildsong.biz
     ports:
       - "2443:2443"
       - "9876:9876"
+    restart: on-failure
     volumes:
     # both data and logs will be here
       - ./arcgis/datastore:/home/arcgis/datastore

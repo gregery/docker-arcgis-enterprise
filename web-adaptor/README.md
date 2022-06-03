@@ -164,7 +164,7 @@ I use dnsmasq and just put the host in /etc/hosts on the dns server.
 
 # Files you should know about
 
-Look in the log file /var/log/tomcat8/catalina.out for error messages, 
+Look in the log file /var/log/tomcat9/catalina.out for error messages, 
 they can be very detailed and helpful.
 
 

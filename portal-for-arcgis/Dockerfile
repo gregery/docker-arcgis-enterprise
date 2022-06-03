@@ -29,7 +29,7 @@ RUN chown -R arcgis:arcgis $HOME
 
 # Put your license file and a downloaded copy of the server software
 # in the same folder as this Dockerfile
-ADD *.prvc /home/arcgis
+ADD *.prvc /home/arcgis/
 
 # Start in the arcgis user's home directory.
 WORKDIR ${HOME}
@@ -62,7 +62,7 @@ RUN rm -rf PortalForArcGIS
 
 # Put your license file and a downloaded copy of the server software
 # in the same folder as this Dockerfile
-ADD *.prvc /home/arcgis
+ADD *.prvc /home/arcgis/
 
 # Set path so we can run psql from bash shell
 # Note that it's listening on port 7654, so try

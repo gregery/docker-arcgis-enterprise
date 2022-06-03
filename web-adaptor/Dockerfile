@@ -3,8 +3,10 @@ LABEL maintainer="brian@wildsong.biz"
 ENV REFRESHED_AT 2020-04-17
 
 # Uncomment the right lines for your version. 
-ENV ESRI_VERSION 10.7.1
-ENV TGZ 1071
+ENV ESRI_VERSION 10.9.1
+ENV TGZ 1091
+#ENV ESRI_VERSION 10.7.1
+#ENV TGZ 1071
 #ENV ESRI_VERSION 10.8
 #ENV TGZ 108
 
@@ -23,7 +25,7 @@ EXPOSE 80 443
 
 # Default dependencies cause openjdk 11 to be installed
 # which is not in the supported list
-RUN apt-get install -y openjdk-8-jre-headless tomcat8
+RUN apt-get install -y openjdk-8-jre-headless tomcat9
 
 # Prerequisites: Before doing a "docker build", 
 # put a downloaded copy of the web adaptor installer
@@ -41,12 +43,13 @@ ENV PORTAL_NAME portal.wildsong.lan
 # "ADD" knows how to unpack the tar file directly into the Docker image.
 
 # ArcGIS installation should be done as an unprivileged user.
-ENV TOMCAT=tomcat8
-ENV HOME=/home/${TOMCAT}
+ENV TOMCAT=tomcat9
+ENV TOMCAT_USER=tomcat
+ENV HOME=/home/${TOMCAT_USER}
 ENV CATALINA_HOME=/usr/share/${TOMCAT}
-RUN mkdir ${HOME} && chown -R ${TOMCAT}.${TOMCAT} ${HOME} && usermod --home ${HOME} ${TOMCAT}
+RUN mkdir ${HOME} && chown -R ${TOMCAT_USER}.${TOMCAT_USER} ${HOME} && usermod --home ${HOME} ${TOMCAT_USER}
 
-# Note, there is a "tomcat8" string embedded in this script. This needs fixing.
+# Note, there is a "tomcat9" string embedded in this script. This needs fixing.
 ADD logrotate /etc/logrotate.d/${TOMCAT}
 RUN chmod 644 /etc/logrotate.d/${TOMCAT}
 
@@ -64,20 +67,21 @@ RUN sed -i "s/<Service name=\"Catalina\">/<Service name=\"Catalina\">\n    <Conn
         /etc/${TOMCAT}/server.xml
 
 ENV PIDDIR=/var/run/${TOMCAT}
-RUN mkdir ${PIDDIR} && chown ${TOMCAT}.${TOMCAT} ${PIDDIR}
+RUN mkdir ${PIDDIR} && chown ${TOMCAT_USER}.${TOMCAT_USER} ${PIDDIR}
 
 
 # Set up authbind to allow tomcat to use ports 80 and 443
 # (By default, non-privileged users are not allowed to use ports < 1024.)
-ENV AUTHBIND=/etc/authbind/byport/
+ENV AUTHBIND=/etc/authbind/byport
+RUN mkdir -p ${AUTHBIND}
 RUN touch ${AUTHBIND}/80 && touch ${AUTHBIND}/443
-RUN chown ${TOMCAT} ${AUTHBIND}/80 ${AUTHBIND}/443
+RUN chown ${TOMCAT_USER} ${AUTHBIND}/80 ${AUTHBIND}/443
 RUN chmod 755 ${AUTHBIND}/80 ${AUTHBIND}/443
 
-ADD Web_Adaptor_Java_Linux_${TGZ}*.tar.gz /home/${TOMCAT}/
+ADD ArcGIS_Web_Adaptor_Java_Linux_${TGZ}*.tar.gz /home/${TOMCAT_USER}/
 
 WORKDIR ${HOME}
-USER ${TOMCAT}
+USER ${TOMCAT_USER}
 
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV JSSE_HOME=${JAVA_HOME}/jre
@@ -107,12 +111,12 @@ RUN cp ${HOME}/arcgis/webadaptor*/java/arcgis.war ${CATALINA_APPS}
 # Once we're done with the installer files, we can delete them.
 #RUN rm -rf ${HOME}/WebAdaptor
 
-RUN chown -R ${TOMCAT}:${TOMCAT} /var/log/${TOMCAT} ${HOME}
+RUN chown -R ${TOMCAT_USER}:${TOMCAT_USER} /var/log/${TOMCAT} ${HOME}
 
 WORKDIR ${HOME}
 
 # Drop privileges, no need to run as root.
-USER ${TOMCAT}
+USER ${TOMCAT_USER}
 
 # Change command line prompt
 ADD bashrc .bashrc
