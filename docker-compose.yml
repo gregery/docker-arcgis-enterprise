@@ -12,6 +12,11 @@ services:
   server:
     container_name: server
     build: arcgis-server
+    enviroment:
+      AGE_PASSWORD: samplepassword
+      AGE_PORTAL: portal.wildsong.biz
+      AGE_SERVER: server.wildsong.biz
+      AGE_USER: arcgis
     image: wildsong/arcgis-server
     ports:
       - "6080:6080"
@@ -28,6 +33,11 @@ services:
   portal:
     container_name: portal
     build: portal-for-arcgis
+    enviroment:
+      AGE_PASSWORD: samplepassword
+      AGE_PORTAL: portal.wildsong.biz
+      AGE_SERVER: server.wildsong.biz
+      AGE_USER: arcgis
     image: wildsong/portal-for-arcgis
     ports:
       - "7080:7080"
@@ -42,6 +52,16 @@ services:
   web-adaptor:
     container_name: web-adaptor
     build: web-adaptor
+    enviroment:
+      AGE_PASSWORD: samplepassword
+      AGE_PORTAL: portal.wildsong.biz
+      AGE_SERVER: server.wildsong.biz
+      AGE_USER: arcgis
+      AGS_DOMAIN: wildsong.lan
+      AGS_PASSWORD: yourpasswordhere
+      AGS_USER: siteadmin
+      PORTAL_NAME: portal.wildsong.lan
+      WA_NAME: web-adaptor.wildsong.lan
     image: wildsong/web-adaptor
     ports:
       - "80:80"
@@ -58,12 +78,12 @@ services:
   datastore:
     container_name: datastore
     build: datastore
+    enviroment:
+      AGE_PASSWORD: samplepassword
+      AGE_PORTAL: portal.wildsong.biz
+      AGE_SERVER: server.wildsong.biz
+      AGE_USER: arcgis
     image: wildsong/datastore
-    #    environment:
-    #      AGS_USER: arcgis
-    #      AGS_PASSWORD: samplepassword
-    #      AGE_SERVER: server.wildsong.biz
-    #      AGE_PORTAL: portal.wildsong.biz
     ports:
       - "2443:2443"
       - "9876:9876"
