@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 LABEL maintainer="brian@wildsong.biz"
-ENV REFRESHED_AT 2020-04-17
+ENV REFRESHED_AT 2022-06-03
 
 # Uncomment the right lines for your version. 
 ENV ESRI_VERSION 10.9.1
@@ -26,6 +26,7 @@ EXPOSE 80 443
 # Default dependencies cause openjdk 11 to be installed
 # which is not in the supported list
 RUN apt-get install -y openjdk-8-jre-headless tomcat9
+RUN apt-get install -y authbind
 
 # Prerequisites: Before doing a "docker build", 
 # put a downloaded copy of the web adaptor installer
