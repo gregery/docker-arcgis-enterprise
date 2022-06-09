@@ -15,7 +15,7 @@ services:
       - "6443:6443"
     volumes:
       - /home/gadair/arcgis/server/usr/config-store:/home/arcgis/server/usr/config-store
-      - /home/gadair/arcgis/server/usr/directories:server_data:/home/arcgis/server/usr/directories
+      - /home/gadair/arcgis/server/usr/directories:/home/arcgis/server/usr/directories
       - /home/gadair/arcgis/server/usr/logs:/home/arcgis/server/usr/logs
     networks:
       arcgis.net:
