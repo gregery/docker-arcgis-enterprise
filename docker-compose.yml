@@ -1,13 +1,5 @@
 version: '3.6'
 
-volumes:
-  server_data:
-    name: arcgis_server_data
-  server_config:
-    name: arcgis_server_config
-  server_logs:
-    name: arcgis_server_logs
-
 services:
   server:
     container_name: server
@@ -22,9 +14,9 @@ services:
       - "6080:6080"
       - "6443:6443"
     volumes:
-      - server_config:/home/arcgis/server/usr/config-store
-      - server_data:/home/arcgis/server/usr/directories
-      - server_logs:/home/arcgis/server/usr/logs
+      - /home/gadair/arcgis/server/usr/config-store:/home/arcgis/server/usr/config-store
+      - /home/gadair/arcgis/server/usr/directories:server_data:/home/arcgis/server/usr/directories
+      - /home/gadair/arcgis/server/usr/logs:/home/arcgis/server/usr/logs
     networks:
       arcgis.net:
     restart: on-failure
@@ -43,7 +35,7 @@ services:
       - "7080:7080"
       - "7443:7443"
     volumes:
-      - ./arcgis/portal:/home/arcgis/portal/usr/arcgisportal
+      - /home/gadair/arcgis/portal/usr/arcgisportal:/home/arcgis/portal/usr/arcgisportal
     networks:
       arcgis.net:
     restart: on-failure
@@ -92,7 +84,7 @@ services:
     restart: on-failure
     volumes:
     # both data and logs will be here
-      - ./arcgis/datastore:/home/arcgis/datastore
+      - /home/gadair/arcgis/datastore:/home/arcgis/datastore
     networks:
       arcgis.net:
 
