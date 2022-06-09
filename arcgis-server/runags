@@ -4,7 +4,7 @@
 
 AGSNAME="server"
 DOCKERHOST=`hostname`
-AGSVERSION="10.6"
+AGSVERSION="10.9"
 
 # Stop a previous instance, if any.
 docker stop ${AGSNAME} > /dev/null 2>&1

@@ -12,7 +12,7 @@ services:
   server:
     container_name: server
     build: arcgis-server
-    enviroment:
+    environment:
       AGE_PASSWORD: samplepassword
       AGE_PORTAL: portal.wildsong.biz
       AGE_SERVER: server.wildsong.biz
@@ -23,8 +23,8 @@ services:
       - "6443:6443"
     volumes:
       - server_config:/home/arcgis/server/usr/config-store
-      - server_data:/home/arcgis/server/usr/directories"
-      - server_logs:/home/arcgis/server/usr/logs"
+      - server_data:/home/arcgis/server/usr/directories
+      - server_logs:/home/arcgis/server/usr/logs
     networks:
       arcgis.net:
     restart: on-failure
@@ -33,7 +33,7 @@ services:
   portal:
     container_name: portal
     build: portal-for-arcgis
-    enviroment:
+    environment:
       AGE_PASSWORD: samplepassword
       AGE_PORTAL: portal.wildsong.biz
       AGE_SERVER: server.wildsong.biz
@@ -52,7 +52,7 @@ services:
   web-adaptor:
     container_name: web-adaptor
     build: web-adaptor
-    enviroment:
+    environment:
       AGE_PASSWORD: samplepassword
       AGE_PORTAL: portal.wildsong.biz
       AGE_SERVER: server.wildsong.biz
@@ -78,11 +78,13 @@ services:
   datastore:
     container_name: datastore
     build: datastore
-    enviroment:
+    environment:
       AGE_PASSWORD: samplepassword
+      AGS_PASSWORD: samplepassword
       AGE_PORTAL: portal.wildsong.biz
       AGE_SERVER: server.wildsong.biz
       AGE_USER: arcgis
+      AGS_USER: arcgis
     image: wildsong/datastore
     ports:
       - "2443:2443"

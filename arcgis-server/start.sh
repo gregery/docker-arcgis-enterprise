@@ -34,6 +34,7 @@ fi
 # This would be a good place to authorize a
 # license file if you have not done that already
 # Check status first
+./server/tools/authorizeSoftware -f ./ArcGISImageServer_ArcGISServer_1180239.prvc
 #./server/tools/authorizeSoftware -s
 
 echo "Starting ArcGIS Server"
